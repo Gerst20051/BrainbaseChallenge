@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { SharedService } from './../../services/shared.service';
-
-const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+import { formatDate } from './../../utils';
 
 @Component({
   selector: 'app-jumbotron',
@@ -16,14 +14,10 @@ export class JumbotronComponent implements OnInit {
   date = '';
 
   constructor(private sharedService: SharedService) {
-    this.date = this.formatDate(this.currentDate);
+    this.date = formatDate(this.currentDate);
   }
 
   ngOnInit(): void {}
-
-  formatDate(date: Date): string {
-    return `${dayNames[date.getDay()]}, ${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
-  }
 
   getDateForDay(): Date {
     const nextDate = new Date(this.currentDate);
@@ -33,7 +27,7 @@ export class JumbotronComponent implements OnInit {
 
   nextDay() {
     this.day++;
-    this.date = this.formatDate(this.getDateForDay());
+    this.date = formatDate(this.getDateForDay());
     this.sharedService.sendClickEvent();
   }
 }
