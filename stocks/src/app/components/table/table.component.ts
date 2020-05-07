@@ -3,10 +3,10 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 
-import { SharedService } from './../services/shared.service';
-import { StocksService } from './../services/stocks.service';
-import { StockApi } from './../interfaces/stock-api';
-import { StockTable } from './../interfaces/stock-table';
+import { SharedService } from './../../services/shared.service';
+import { StocksService } from './../../services/stocks.service';
+import { StockApi } from './../../interfaces/stock-api';
+import { StockTable } from './../../interfaces/stock-table';
 
 @Component({
   selector: 'app-table',

@@ -10,10 +10,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { HeaderComponent } from './header/header.component';
-import { JumbotronComponent } from './jumbotron/jumbotron.component';
-import { TableComponent } from './table/table.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { HeaderComponent } from './components/header/header.component';
+import { JumbotronComponent } from './components/jumbotron/jumbotron.component';
+import { TableComponent } from './components/table/table.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [

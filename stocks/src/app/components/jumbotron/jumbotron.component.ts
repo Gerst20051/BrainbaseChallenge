@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { SharedService } from './../services/shared.service';
+import { SharedService } from './../../services/shared.service';
 
 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
