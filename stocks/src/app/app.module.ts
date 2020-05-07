@@ -34,7 +34,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     MatTableModule,
     MatToolbarModule
   ],
-  providers: [], // TODO: determine if StocksService should go here
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
