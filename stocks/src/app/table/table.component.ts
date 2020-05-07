@@ -12,11 +12,11 @@ export interface StockTableInterface {
 }
 
 const STOCKS: StockTableInterface[] = [
-  { symbol: 'AAPL', name: 'Apple', price: 1000 },
-  { symbol: 'MSFT', name: 'Microsoft', price: 25 },
-  { symbol: 'WFC', name: 'Wells Fargo & Company Common Stock', price: 28 },
-  { symbol: 'UBER', name: 'Uber', price: 41 },
-  { symbol: 'LYFT', name: 'Lyft', price: 57 },
+  { symbol: 'AAPL', name: 'Apple', price: 1000, initial_price: 1000, raw_change: 0, change: 0, raw_percent_change: 0, percent_change: 0 },
+  { symbol: 'MSFT', name: 'Microsoft', price: 25, initial_price: 25, raw_change: 0, change: 0, raw_percent_change: 0, percent_change: 0 },
+  { symbol: 'WFC', name: 'Wells Fargo & Company Common Stock', price: 28, initial_price: 28, raw_change: 0, change: 0, raw_percent_change: 0, percent_change: 0 },
+  { symbol: 'UBER', name: 'Uber', price: 41, initial_price: 41, raw_change: 0, change: 0, raw_percent_change: 0, percent_change: 0 },
+  { symbol: 'LYFT', name: 'Lyft', price: 57, initial_price: 57, raw_change: 0, change: 0, raw_percent_change: 0, percent_change: 0 },
 ];
 
 @Component({
@@ -26,7 +26,7 @@ const STOCKS: StockTableInterface[] = [
 })
 export class TableComponent implements OnInit {
   clickEventSubscription: Subscription;
-  displayedColumns: string[] = ['symbol', 'name', 'price'];
+  displayedColumns: string[] = ['symbol', 'name', 'price', 'initial_price', 'change', 'percent_change'];
   dataSource = new MatTableDataSource<StockTableInterface>(STOCKS);
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -52,12 +52,24 @@ export class TableComponent implements OnInit {
   }
 
   adjustPriceByPercentage(price: number, percentage: number): number {
-    return parseFloat((price + price * percentage).toFixed(2));
+    return this.fixFloat(price + price * percentage);
+  }
+
+  fixFloat(price: number): number {
+    return parseFloat(price.toFixed(2));
+  }
+
+  getPercentageChange(oldPrice: number, newPrice: number): number {
+    return (newPrice / oldPrice - 1) * 100;
   }
 
   nextDay() {
     for (let i = 0; i < STOCKS.length; i++) {
       STOCKS[i].price = this.adjustPriceByPercentage(STOCKS[i].price, this.randomPercentage());
+      STOCKS[i].raw_change = this.fixFloat(STOCKS[i].price - STOCKS[i].initial_price);
+      STOCKS[i].change = Math.abs(STOCKS[i].raw_change);
+      STOCKS[i].raw_percent_change = this.fixFloat(this.getPercentageChange(STOCKS[i].initial_price, STOCKS[i].price));
+      STOCKS[i].percent_change = Math.abs(STOCKS[i].raw_percent_change);
     }
   }
 }

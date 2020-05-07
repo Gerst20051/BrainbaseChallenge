@@ -5,3 +5,11 @@ table {
 ::ng-deep .mat-sort-header-sorted {
   color: black;
 }
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
