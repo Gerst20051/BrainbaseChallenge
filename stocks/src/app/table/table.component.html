@@ -8,22 +8,22 @@
     <td mat-cell *matCellDef="let stock">{{ stock.name }}</td>
   </ng-container>
   <ng-container matColumnDef="price">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header="price">Price</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="price" class="width-100">Price</th>
     <td mat-cell *matCellDef="let stock">{{ stock.price }}$</td>
   </ng-container>
   <ng-container matColumnDef="initial_price">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header="initial_price">Initial Price</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="initial_price" class="width-100">Initial Price</th>
     <td mat-cell *matCellDef="let stock">{{ stock.initial_price }}$</td>
   </ng-container>
   <ng-container matColumnDef="change">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header="raw_change">Change $</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="raw_change" class="width-100">Change $</th>
     <td mat-cell *matCellDef="let stock" [ngClass]="{
      'green': stock.price > stock.initial_price,
      'red': stock.price < stock.initial_price
     }">{{ stock.change }}$</td>
   </ng-container>
   <ng-container matColumnDef="percent_change">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header="raw_percent_change">Change %</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="raw_percent_change" class="width-100">Change %</th>
     <td mat-cell *matCellDef="let stock" [ngClass]="{
      'green': stock.price > stock.initial_price,
      'red': stock.price < stock.initial_price

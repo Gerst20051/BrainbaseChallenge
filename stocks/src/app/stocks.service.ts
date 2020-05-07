@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 
-export interface StockInterface {
-  symbol: string;
-  name: string;
-  price: number;
-}
+import { StockApi } from './stock-api';
+// import { STOCKS } from './mock-stocks';
 
-// TODO: determine if it makes sense to provide in root
 @Injectable({
   providedIn: 'root'
 })
 export class StocksService {
   constructor(private http: HttpClient) {}
+
+  getStocks(): Observable<StockApi[]> {
+    return this.http.get<StockApi[]>('https://staging-api.brainbase.com/stocks.php');
+    // return of(STOCKS);
+  }
 }

@@ -12,3 +12,4 @@ Install Angular CLI Globally
 
 1. Create Components Directory
 2. Create Services Directory
+3. Create Interfaces Directory

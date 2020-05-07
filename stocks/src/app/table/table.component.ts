@@ -4,20 +4,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 
 import { SharedService } from './../shared.service';
-
-export interface StockTableInterface {
-  symbol: string;
-  name: string;
-  price: number;
-}
-
-const STOCKS: StockTableInterface[] = [
-  { symbol: 'AAPL', name: 'Apple', price: 1000, initial_price: 1000, raw_change: 0, change: 0, raw_percent_change: 0, percent_change: 0 },
-  { symbol: 'MSFT', name: 'Microsoft', price: 25, initial_price: 25, raw_change: 0, change: 0, raw_percent_change: 0, percent_change: 0 },
-  { symbol: 'WFC', name: 'Wells Fargo & Company Common Stock', price: 28, initial_price: 28, raw_change: 0, change: 0, raw_percent_change: 0, percent_change: 0 },
-  { symbol: 'UBER', name: 'Uber', price: 41, initial_price: 41, raw_change: 0, change: 0, raw_percent_change: 0, percent_change: 0 },
-  { symbol: 'LYFT', name: 'Lyft', price: 57, initial_price: 57, raw_change: 0, change: 0, raw_percent_change: 0, percent_change: 0 },
-];
+import { StocksService } from './../stocks.service';
+import { StockApi } from './../stock-api';
+import { StockTable } from './../stock-table';
 
 @Component({
   selector: 'app-table',
@@ -27,11 +16,12 @@ const STOCKS: StockTableInterface[] = [
 export class TableComponent implements OnInit {
   clickEventSubscription: Subscription;
   displayedColumns: string[] = ['symbol', 'name', 'price', 'initial_price', 'change', 'percent_change'];
-  dataSource = new MatTableDataSource<StockTableInterface>(STOCKS);
+  STOCKS: StockTable[] = [];
+  dataSource = new MatTableDataSource<StockTable>();
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private sharedService: SharedService) {
+  constructor(private sharedService: SharedService, private stocksService: StocksService) {
     this.clickEventSubscription = this.sharedService.getClickEvent().subscribe(() => {
       this.nextDay();
     });
@@ -39,6 +29,7 @@ export class TableComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataSource.sort = this.sort;
+    this.getStocks();
   }
 
   randomInteger(min: number, max: number): number {
@@ -64,12 +55,38 @@ export class TableComponent implements OnInit {
   }
 
   nextDay() {
-    for (let i = 0; i < STOCKS.length; i++) {
-      STOCKS[i].price = this.adjustPriceByPercentage(STOCKS[i].price, this.randomPercentage());
-      STOCKS[i].raw_change = this.fixFloat(STOCKS[i].price - STOCKS[i].initial_price);
-      STOCKS[i].change = Math.abs(STOCKS[i].raw_change);
-      STOCKS[i].raw_percent_change = this.fixFloat(this.getPercentageChange(STOCKS[i].initial_price, STOCKS[i].price));
-      STOCKS[i].percent_change = Math.abs(STOCKS[i].raw_percent_change);
+    for (let i = 0; i < this.STOCKS.length; i++) {
+      this.STOCKS[i].price = this.adjustPriceByPercentage(this.STOCKS[i].price, this.randomPercentage());
+      this.STOCKS[i].raw_change = this.fixFloat(this.STOCKS[i].price - this.STOCKS[i].initial_price);
+      this.STOCKS[i].change = Math.abs(this.STOCKS[i].raw_change);
+      this.STOCKS[i].raw_percent_change = this.fixFloat(this.getPercentageChange(this.STOCKS[i].initial_price, this.STOCKS[i].price));
+      this.STOCKS[i].percent_change = Math.abs(this.STOCKS[i].raw_percent_change);
     }
+    this.dataSource.sort = this.sort;
+  }
+
+  convertApiStocksToTableStocks(stocks: StockApi[]): StockTable[] {
+    const tableStocks: StockTable[] = stocks.map(stock => {
+      const tableStock: StockTable = {
+        ...stock,
+        initial_price: stock.price,
+        raw_change: 0,
+        change: 0,
+        raw_percent_change: 0,
+        percent_change: 0,
+      };
+      return tableStock;
+    });
+    return tableStocks;
+  }
+
+  getStocks() {
+    this.stocksService.getStocks().subscribe(stocks => {
+      this.STOCKS = this.convertApiStocksToTableStocks(stocks);
+      this.dataSource.data = this.STOCKS;
+      this.dataSource.sort = this.sort;
+    }, error => {
+      console.error(error);
+    });
   }
 }
