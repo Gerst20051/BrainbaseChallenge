@@ -28,7 +28,6 @@ export class TableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataSource.sort = this.sort;
     this.getStocks();
   }
 
@@ -86,7 +85,7 @@ export class TableComponent implements OnInit {
       this.dataSource.data = this.STOCKS;
       this.dataSource.sort = this.sort;
     }, error => {
-      console.error(error);
+      console.error('failed to get stocks', error);
     });
   }
 }
