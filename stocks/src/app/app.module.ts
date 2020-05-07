@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
 import { JumbotronComponent } from './jumbotron/jumbotron.component';
+import { TableComponent } from './table/table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    JumbotronComponent
+    JumbotronComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,
