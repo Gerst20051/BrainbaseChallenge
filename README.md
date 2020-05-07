@@ -7,3 +7,8 @@ Code For Brainbase Coding Challenge
 Install Angular CLI Globally
 
 [$]> npm install -g @angular/cli
+
+## Remaining Todos
+
+1. Create Components Directory
+2. Create Services Directory

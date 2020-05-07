@@ -5,6 +5,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { HeaderComponent } from './header/header.component';
 import { JumbotronComponent } from './jumbotron/jumbotron.component';
 import { TableComponent } from './table/table.component';
@@ -22,9 +27,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatSortModule,
+    MatTableModule,
+    MatToolbarModule
   ],
-  providers: [],
+  providers: [], // TODO: determine if StocksService should go here
   bootstrap: [AppComponent]
 })
 export class AppModule { }
