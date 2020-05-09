@@ -23,9 +23,9 @@ import {
 })
 export class TableComponent implements OnInit {
   clickEventSubscription: Subscription;
-  displayedColumns: string[] = ['symbol', 'name', 'price', 'initial_price', 'change', 'percent_change'];
-  STOCKS: StockTable[] = [];
   dataSource = new MatTableDataSource<StockTable>();
+  displayedColumns: string[] = ['symbol', 'name', 'price', 'initial_price', 'change', 'percent_change'];
+  stocks: StockTable[] = [];
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -40,20 +40,20 @@ export class TableComponent implements OnInit {
   }
 
   nextDay() {
-    for (const [i] of this.STOCKS.entries()) {
-      this.STOCKS[i].price = adjustPriceByPercentage(this.STOCKS[i].price, randomPercentage());
-      this.STOCKS[i].raw_change = fixFloat(this.STOCKS[i].price - this.STOCKS[i].initial_price);
-      this.STOCKS[i].change = Math.abs(this.STOCKS[i].raw_change);
-      this.STOCKS[i].raw_percent_change = fixFloat(getPercentageChange(this.STOCKS[i].initial_price, this.STOCKS[i].price));
-      this.STOCKS[i].percent_change = Math.abs(this.STOCKS[i].raw_percent_change);
+    for (const [i] of this.stocks.entries()) {
+      this.stocks[i].price = adjustPriceByPercentage(this.stocks[i].price, randomPercentage());
+      this.stocks[i].raw_change = fixFloat(this.stocks[i].price - this.stocks[i].initial_price);
+      this.stocks[i].change = Math.abs(this.stocks[i].raw_change);
+      this.stocks[i].raw_percent_change = fixFloat(getPercentageChange(this.stocks[i].initial_price, this.stocks[i].price));
+      this.stocks[i].percent_change = Math.abs(this.stocks[i].raw_percent_change);
     }
     this.dataSource.sort = this.sort;
   }
 
   getStocks() {
-    this.stocksService.getStocks().subscribe(stocks => {
-      this.STOCKS = convertApiStocksToTableStocks(stocks);
-      this.dataSource.data = this.STOCKS;
+    this.stocksService.getStocksFromMock().subscribe(stocks => {
+      this.stocks = convertApiStocksToTableStocks(stocks);
+      this.dataSource.data = this.stocks;
       this.dataSource.sort = this.sort;
     }, error => {
       console.error('failed to get stocks', error);
